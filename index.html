@@ -1,168 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Inline Mic Widget</title>
+  <meta charset="UTF-8">
+  <title>Voice Widget Inline Placement Test</title>
   <style>
-    .qiqi-float-mic {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 9999px;
-      padding: 6px 8px;
-      font-family: sans-serif;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      max-width: fit-content;
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
     }
-
-    .qiqi-float-mic button {
-      background: none;
-      border: none;
-      font-size: 18px;
-      cursor: pointer;
+    .form-container {
+      margin-bottom: 60px;
     }
-
-    .qiqi-float-mic select {
-      margin-left: 8px;
-      font-size: 14px;
-      padding: 4px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
     }
-
-    .qiqi-hidden {
-      display: none;
+    input[type="text"] {
+      width: 300px;
+      padding: 6px;
+      margin-top: 5px;
+      margin-bottom: 10px;
     }
-
-    .qiqi-pulsing {
-      animation: pulse 1s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); filter: brightness(1); }
-      50% { transform: scale(1.2); filter: brightness(1.5); }
-      100% { transform: scale(1); filter: brightness(1); }
-    }
-
-    #qiqiMicBtn img {
-  transition: transform 0.2s, filter 0.2s;
-}
-
-.qiqi-widget-inline {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: sans-serif;
-}
-
-.qiqi-controls {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 9999px;
-  padding: 6px 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.qiqi-brand {
-  font-size: 10px;
-  color: #999;
-  margin-top: 4px;
-  font-style: italic;
-}
-
-.qiqi-brand a {
-  color: #666;
-  text-decoration: none;
-}
-
-.qiqi-brand a:hover {
-  text-decoration: underline;
-}
-
-
   </style>
 </head>
 <body>
 
-  <h2>Inline Mic Widget Example</h2>
-  <p>This is a demo of how the compact mic widget appears inline with other page content.</p>
+<h1>Voice Widget Test - Inline Placement with Forms</h1>
 
-  <div class="qiqi-widget-inline">
-    <div class="qiqi-controls">
-      <button id="qiqiMicBtn" title="Start recording">
-        <img src="https://voxfields.net/widgets/mic-icon-red.png" alt="Record" style="width: 30px;" />
-      </button>
-      <button id="qiqiDropdownBtn" title="Choose mic">▼</button>
-      <select id="qiqiMicSelect" class="qiqi-hidden"></select>
-    </div>
-    <div class="qiqi-brand">
-      <small>Powered by <a href="https://voxfields.com" target="_blank">Voxfields</a></small>
-    </div>
-  </div>
+<!-- Form 1 -->
+<div class="form-container">
+  <h2>Form 1</h2>
 
-  <script>
-    let selectedDeviceId = null;
-    let isRecording = false;
+  <!-- Insert Voice Widget Inline Here -->
+  <script type="module" src="./voice-widget.js" data-formid="form1"></script>
 
-    const micBtn = document.getElementById("qiqiMicBtn");
-    const dropdownBtn = document.getElementById("qiqiDropdownBtn");
-    const micSelect = document.getElementById("qiqiMicSelect");
+  <form id="form1">
+    <label for="name1">Name:</label>
+    <input type="text" id="name1" name="name1">
 
-    async function populateMicrophones() {
-      try {
-        await navigator.mediaDevices.getUserMedia({ audio: true });
-        const devices = await navigator.mediaDevices.enumerateDevices();
+    <label for="email1">Email:</label>
+    <input type="text" id="email1" name="email1">
 
-        micSelect.innerHTML = "";
+    <label for="message1">Message:</label>
+    <input type="text" id="message1" name="message1">
+  </form>
+</div>
 
-        devices.forEach((device, index) => {
-          if (device.kind === "audioinput") {
-            const option = document.createElement("option");
-            option.value = device.deviceId;
-            option.textContent = device.label || `Microphone ${index + 1}`;
-            micSelect.appendChild(option);
-          }
-        });
+<!-- Form 2 -->
+<div class="form-container">
+  <h2>Form 2</h2>
 
-        if (micSelect.options.length > 0) {
-          selectedDeviceId = micSelect.value;
-        }
-      } catch (err) {
-        console.error("Error accessing microphones:", err);
-      }
-    }
+  <!-- Insert Second Voice Widget Inline Here -->
+  <script type="module" src="./voice-widget.js" data-formid="form2"></script>
 
-    micSelect.addEventListener("change", () => {
-      selectedDeviceId = micSelect.value;
-      console.log("Selected mic:", selectedDeviceId);
-      micSelect.classList.add("qiqi-hidden"); // hide after selection
-    });
+  <form id="form2">
+    <label for="name2">Name:</label>
+    <input type="text" id="name2" name="name2">
 
-    micBtn.addEventListener("click", () => {
-      isRecording = !isRecording;
-      micBtn.classList.toggle("qiqi-pulsing", isRecording);
-      micBtn.title = isRecording ? "Stop recording" : "Start recording";
-      console.log(isRecording ? "🔴 Recording started..." : "⏹️ Recording stopped.");
-    });
+    <label for="email2">Email:</label>
+    <input type="text" id="email2" name="email2">
 
-    dropdownBtn.addEventListener("click", () => {
-      micSelect.classList.toggle("qiqi-hidden");
-    });
+    <label for="message2">Message:</label>
+    <input type="text" id="message2" name="message2">
+  </form>
+</div>
 
-    document.addEventListener("click", (e) => {
-      const widget = document.querySelector(".qiqi-float-mic");
-      if (!widget.contains(e.target)) {
-        micSelect.classList.add("qiqi-hidden");
-      }
-    });
-
-    populateMicrophones();
-  </script>
 </body>
 </html>
