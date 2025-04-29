@@ -102,6 +102,7 @@ async function waitForWebSocketMessageAfterPost(wsUrl, apiUrl, audioBlob, timeou
         });
   
           if (!response.ok) {
+            console.log("POST Failed ...")
             clearTimeout(timeoutId);
             ws.close();
             reject(new Error(`REST API call failed with status ${response.status}`));
