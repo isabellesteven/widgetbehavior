@@ -105,7 +105,7 @@ class VoiceWidget {
         this.isRecording = false;
         this.micBtn.classList.remove("qiqi-pulsing");
         const blob = await this.recorder.stop();
-        const responseJson = await uploadAudio(blob, this.sessionId);
+        const responseJson = await uploadAudio(blob, this.formId, this.sessionId);
         handleResponse(responseJson, this.formId);
       }
     });
