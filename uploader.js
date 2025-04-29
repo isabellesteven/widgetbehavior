@@ -56,7 +56,9 @@ async function obtainFormTranscription(blob, formId, sessionId, token){
         metadata_filename: metadataFilename,
         metadata_content: btoa(JSON.stringify(metadata))
     });
-    console.log("Calling waitForWebSocketMessageAfterPost***");
+    console.log("Calling waitForWebSocketMessageAfterPostxxxx");
+    console.log(`${widgetConfig.websocketUrl}?sessionId=${sessionId}&role=${role}`);
+    console.log(`${widgetConfig.apiGatewayUploadUrl}?${queryParams.toString()}`)
     await waitForWebSocketMessageAfterPost(
         `${widgetConfig.websocketUrl}?sessionId=${sessionId}&role=${role}`,
         `${widgetConfig.apiGatewayUploadUrl}?${queryParams.toString()}`,
@@ -73,7 +75,7 @@ async function obtainFormTranscription(blob, formId, sessionId, token){
 }
 
 async function waitForWebSocketMessageAfterPost(wsUrl, apiUrl, audioBlob, timeoutMs = 5000) {
-  console.log("inwait")
+  console.log("inwait ...")
   console.log(wsUrl);
   console.log(apiUrl);
     return new Promise((resolve, reject) => {
