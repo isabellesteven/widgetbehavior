@@ -5,6 +5,7 @@ import { widgetConfig } from "./config.js";
 
 class VoiceWidget {
   constructor(formId = null, scriptElement = null) {
+    console.log("in Constructor ...")
     this.formId = formId;
     this.scriptElement = scriptElement;
     this.recorder = new Recorder();
@@ -74,7 +75,7 @@ class VoiceWidget {
     this.container.innerHTML = `
       <div class="qiqi-controls">
         <button id="qiqiMicBtn-${uid}" title="Start recording">
-          <img src="https://voxfields.net/widgets/mic-icon-red.png" alt="Record" style="width: 30px;" />
+          <img src="./mic-icon-red.png" alt="Record" style="width: 30px;" />
         </button>
         <button id="qiqiDropdownBtn-${uid}" title="Choose mic">▼</button>
         <select id="qiqiMicSelect-${uid}" class="qiqi-hidden"></select>
