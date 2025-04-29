@@ -14,7 +14,7 @@ export async function uploadAudio(blob, formId, sessionId) {
           throw new Error("Unable to obtainToken");
       }
       // Obtain the form transcription
-      console.log("obtaining Transcript ...")
+      console.log("obtaining Transcript** ...")
       const responseJson = await obtainFormTranscription(blob, formId, sessionId, token);
 
       // TBD Add more error checking
