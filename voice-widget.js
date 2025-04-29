@@ -148,7 +148,7 @@ class VoiceWidget {
   }
 }
 
-const scripts = document.querySelectorAll('script[type="module"][src$="voice-widget.js"]');
+const scripts = document.querySelectorAll('script[src*="voice-widget"]');
 scripts.forEach(script => {
   const formId = script.getAttribute("data-formid");
   new VoiceWidget(formId, script);
