@@ -73,6 +73,8 @@ async function obtainFormTranscription(blob, formId, sessionId, token){
 }
 
 async function waitForWebSocketMessageAfterPost(wsUrl, apiUrl, audioBlob, timeoutMs = 5000) {
+  console.log(wsUrl);
+  console.log(apiUrl);
     return new Promise((resolve, reject) => {
       const ws = new WebSocket(wsUrl);
       let timeoutId;
