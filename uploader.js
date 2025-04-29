@@ -62,7 +62,7 @@ async function obtainFormTranscription(blob, formId, sessionId, token){
     await waitForWebSocketMessageAfterPost(
         `${widgetConfig.websocketUrl}?sessionId=${sessionId}&role=${role}`,
         `${widgetConfig.apiGatewayUploadUrl}?${queryParams.toString()}`,
-        audioBlob,
+        blob,
         7000
       )
         .then((message) => {
