@@ -9,6 +9,7 @@ export async function uploadAudio(blob, formId, sessionId) {
       // Obtain Token
       console.log("obtaining Token ...")
       const token = await obtainToken(formId);
+      console.log(token)
       if (!token) {
           throw new Error("Unable to obtainToken");
       }
@@ -55,7 +56,7 @@ async function obtainFormTranscription(blob, formId, sessionId, token){
         metadata_filename: metadataFilename,
         metadata_content: btoa(JSON.stringify(metadata))
     });
- 
+    console.log("Calling waitForWebSocketMessageAfterPost")
     waitForWebSocketMessageAfterPost(
         `${widgetConfig.websocketUrl}?sessionId=${sessionId}&role=${role}`,
         `${widgetConfig.apiGatewayUploadUrl}?${queryParams.toString()}`,
