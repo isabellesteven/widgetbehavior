@@ -57,7 +57,7 @@ async function obtainFormTranscription(blob, formId, sessionId, token){
         metadata_content: btoa(JSON.stringify(metadata))
     });
     console.log("Calling waitForWebSocketMessageAfterPost***");
-    waitForWebSocketMessageAfterPost(
+    await waitForWebSocketMessageAfterPost(
         `${widgetConfig.websocketUrl}?sessionId=${sessionId}&role=${role}`,
         `${widgetConfig.apiGatewayUploadUrl}?${queryParams.toString()}`,
         audioBlob,
