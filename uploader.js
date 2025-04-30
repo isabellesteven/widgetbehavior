@@ -58,7 +58,7 @@ async function obtainFormTranscription(blob, formId, sessionId, token){
     });
     console.log("Calling waitForWebSocketMessageAfterPostxxxx");
     console.log(`${widgetConfig.websocketUrl}?sessionId=${sessionId}&role=${role}`);
-    console.log(queryParams.toString);
+    console.log("queryParams contents:", [...queryParams.entries()]);
     console.log(`${widgetConfig.apiGatewayUploadUrl}?${queryParams.toString()}`)
     await waitForWebSocketMessageAfterPost(
         `${widgetConfig.websocketUrl}?sessionId=${sessionId}&role=${role}`,
