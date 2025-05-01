@@ -119,11 +119,12 @@ class VoiceWidget {
       } else {
         this.isRecording = false;
         this.micBtn.classList.remove("qiqi-pulsing");
-        const blob = await this.recorder.stop();
+        let blob = await this.recorder.stop();
         console.log("Blob type:", blob.type); // should show 'audio/wav'
         console.log("Blob size:", blob.size, "bytes");
         this.showSpinner();
         const responseJson = await uploadAudio(blob, this.formId, this.sessionId);
+        blob = null;
         this.hideSpinner();
         handleResponse(responseJson, this.formId);
       }
