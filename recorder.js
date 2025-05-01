@@ -12,7 +12,7 @@ export class Recorder {
   }
 
   async start(selectedDeviceId) {
-    this.bufferedData = [];
+ //   this.bufferedData = [];
     this.selectedDeviceId = selectedDeviceId;
     this.stream = await navigator.mediaDevices.getUserMedia({
       audio: { deviceId: { exact: selectedDeviceId } },
