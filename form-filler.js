@@ -17,13 +17,12 @@ function renderDebug(json) {
 
 function fillForm(data, formId) {
   const excludedKeys = new Set(["sessionId", "app_template"]);
-  console.log("In fillform", data);
   for (const [key, value] of Object.entries(data)) {
     if (excludedKeys.has(key)) continue;
-
+    console.log("In fillform", key);
     const normalizedKey = key.trim().toLowerCase().replace(/\s+/g, "_");
     const input = document.getElementById(key) || document.getElementById(normalizedKey);
-
+    console.log("in formfill input" , input);
     if (input) {
       this._fillInput(input, value, key);
     } else {
