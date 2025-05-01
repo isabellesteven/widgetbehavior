@@ -37,8 +37,9 @@ export class Recorder {
     return new Promise(async (resolve) => {
       console.log("stopping1");
       this.processor.disconnect();
-      this.stream.getTracks().forEach((track) => track.stop());
       console.log("stopping2");
+      this.stream.getTracks().forEach((track) => track.stop());
+
       await this.audioContext.close();
 
       const resampled = await this._resampleToTarget(this.bufferedData, this.sourceSampleRate, this.targetSampleRate);
