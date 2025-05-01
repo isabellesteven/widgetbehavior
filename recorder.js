@@ -12,7 +12,7 @@ export class Recorder {
   }
 
   async start(selectedDeviceId) {
- //   this.bufferedData = [];
+    this.bufferedData = [];
     this.selectedDeviceId = selectedDeviceId;
     this.stream = await navigator.mediaDevices.getUserMedia({
       audio: { deviceId: { exact: selectedDeviceId } },
@@ -37,6 +37,7 @@ export class Recorder {
       this.processor.disconnect();
       this.stream.getTracks().forEach((track) => track.stop());
       await this.audioContext.close();
+      this.audioContext = null;
 
       const resampled = await this._resampleToTarget(this.bufferedData, this.sourceSampleRate, this.targetSampleRate);
       const int16Data = this._convertFloat32ToInt16(resampled);
