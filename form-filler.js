@@ -21,14 +21,14 @@ function fillForm(data, formId) {
     data = Object.values(data)[0];
   }
   
-  
+  console.log("in formfill data.type is", data.type)
   const excludedKeys = new Set(["sessionId", "app_template"]);
   for (const [key, value] of Object.entries(data)) {
     if (excludedKeys.has(key)) continue;
-    console.log("In fillform", key);
+    console.log("In fillform key = ", key);
     const normalizedKey = key.trim().toLowerCase().replace(/\s+/g, "_");
     const input = document.getElementById(key) || document.getElementById(normalizedKey);
-    console.log("in formfill input" , input);
+    console.log("in formfill input" , input.type);
     if (input) {
       _fillInput(input, value, key);
     } else {
