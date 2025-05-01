@@ -4,6 +4,7 @@ export function handleResponse(responseJson, formId = null) {
   if (widgetConfig.integrationMode === "debug") {
     renderDebug(responseJson);
   } else if (widgetConfig.integrationMode === "form-fill") {
+    console.log("In handleResonse", responseJson);
     fillForm(responseJson, formId);
   }
 }
@@ -16,7 +17,7 @@ function renderDebug(json) {
 
 function fillForm(data, formId) {
   const excludedKeys = new Set(["sessionId", "app_template"]);
-
+  console.log("In fillform", data);
   for (const [key, value] of Object.entries(data)) {
     if (excludedKeys.has(key)) continue;
 
