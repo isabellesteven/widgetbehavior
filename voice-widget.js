@@ -62,6 +62,19 @@ class VoiceWidget {
         50% { transform: scale(1.2); filter: brightness(1.5); }
         100% { transform: scale(1); filter: brightness(1); }
       }
+      .qiqi-spinner {
+        width: 24px;
+        height: 24px;
+        border: 3px solid #ccc;
+        border-top: 3px solid #e60023;
+        border-radius: 50%;
+        animation: qiqi-spin 1s linear infinite;
+      }
+
+      @keyframes qiqi-spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
     `;
     document.head.appendChild(style);
   }
@@ -83,6 +96,7 @@ class VoiceWidget {
       <div class="qiqi-brand">
         <small>Powered by <a href="https://voxfields.com" target="_blank">Voxfields</a></small>
       </div>
+      <div id="qiqiSpinner" class="qiqi-spinner qiqi-hidden"></div>
     `;
 
     this.scriptElement.parentNode.insertBefore(this.container, this.scriptElement.nextSibling);
@@ -108,7 +122,9 @@ class VoiceWidget {
         const blob = await this.recorder.stop();
         console.log("Blob type:", blob.type); // should show 'audio/wav'
         console.log("Blob size:", blob.size, "bytes");
+        this.showSpinner();
         const responseJson = await uploadAudio(blob, this.formId, this.sessionId);
+        this.hideSpinner();
         handleResponse(responseJson, this.formId);
       }
     });
@@ -148,6 +164,15 @@ class VoiceWidget {
   generateSessionId() {
     return Math.floor(100000 + Math.random() * 900000);
   }
+
+  showSpinner() {
+    this.container.querySelector("#qiqiSpinner")?.classList.remove("qiqi-hidden");
+  }
+  
+  hideSpinner() {
+    this.container.querySelector("#qiqiSpinner")?.classList.add("qiqi-hidden");
+  }
+  
 }
 
 const scripts = document.querySelectorAll('script[src*="voice-widget"]');
