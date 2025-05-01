@@ -1,6 +1,7 @@
 // recorder.js
 export class Recorder {
   constructor() {
+    console.log("in recorder constructor")
     this.audioChunks = [];
     this.selectedDeviceId = null;
     this.stream = null;
@@ -11,6 +12,7 @@ export class Recorder {
   }
 
   async start(selectedDeviceId) {
+    console.log("recorder strated");
     this.selectedDeviceId = selectedDeviceId;
     this.stream = await navigator.mediaDevices.getUserMedia({
       audio: { deviceId: { exact: selectedDeviceId } },
@@ -31,6 +33,7 @@ export class Recorder {
   }
 
   async stop() {
+    console.log("Recorder stopped");
     return new Promise(async (resolve) => {
       this.processor.disconnect();
       this.stream.getTracks().forEach((track) => track.stop());
