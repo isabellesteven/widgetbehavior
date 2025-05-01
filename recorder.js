@@ -40,6 +40,14 @@ export class Recorder {
       const resampled = await this._resampleToTarget(this.bufferedData, this.sourceSampleRate, this.targetSampleRate);
       const int16Data = this._convertFloat32ToInt16(resampled);
       const wavBlob = this._encodeWAV(int16Data, this.targetSampleRate);
+
+      // For testing: create download link
+      const url = URL.createObjectURL(wavBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `recording_${Date.now()}.wav`;
+      a.textContent = 'Download WAV';
+      document.body.appendChild(a);
       resolve(wavBlob);
     });
   }

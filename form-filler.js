@@ -14,7 +14,7 @@ function renderDebug(json) {
   document.body.appendChild(pre);
 }
 
-function fillForm(json, formId) {
+function fillForm(data) {
   const form = formId ? document.getElementById(formId) : document;
   Object.entries(json).forEach(([key, value]) => {
     const input = form.querySelector(`#${key}`);
