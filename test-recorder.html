@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Recorder Test</title>
+</head>
+<body>
+  <h1>Audio Recorder Test</h1>
+  <button id="startBtn">Start Recording</button>
+  <button id="stopBtn" disabled>Stop & Download</button>
+  <p id="status"></p>
+
+  <script type="module">
+    import { Recorder } from './recorder.js';
+
+    const recorder = new Recorder();
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const status = document.getElementById('status');
+
+    startBtn.onclick = async () => {
+      status.textContent = 'Starting recorder...';
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const mic = devices.find(d => d.kind === 'audioinput');
+        if (!mic) throw new Error("No microphone found");
+        stream.getTracks().forEach(track => track.stop()); // release temporary stream
+
+        await recorder.start(mic.deviceId);
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+        status.textContent = 'Recording...';
+      } catch (err) {
+        console.error(err);
+        status.textContent = 'Error: ' + err.message;
+      }
+    };
+
+    stopBtn.onclick = async () => {
+      status.textContent = 'Stopping...';
+      const blob = await recorder.stop();
+      status.textContent = 'Recording complete.';
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'recording.wav';
+      a.textContent = 'Download recording';
+      document.body.appendChild(a);
+
+      stopBtn.disabled = true;
+      startBtn.disabled = false;
+    };
+  </script>
+</body>
+</html>

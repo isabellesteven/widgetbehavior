@@ -1,7 +1,6 @@
 // recorder.js
 export class Recorder {
   constructor() {
-    console.log("in recorder constructor")
     this.audioChunks = [];
     this.selectedDeviceId = null;
     this.stream = null;
@@ -9,10 +8,10 @@ export class Recorder {
     this.sourceSampleRate = null;
     this.targetSampleRate = 16000;
     this.bufferedData = [];
+    this._workletModuleLoaded = false;
   }
 
   async start(selectedDeviceId) {
-    console.log("recorder started");
     this.selectedDeviceId = selectedDeviceId;
     this.stream = await navigator.mediaDevices.getUserMedia({
       audio: { deviceId: { exact: selectedDeviceId } },
@@ -33,26 +32,20 @@ export class Recorder {
   }
 
   async stop() {
-    console.log("Recorder stopped");
     return new Promise(async (resolve) => {
-      console.log("stopping1");
       this.processor.disconnect();
-      console.log("stopping2");
       this.stream.getTracks().forEach((track) => track.stop());
-
       await this.audioContext.close();
 
       const resampled = await this._resampleToTarget(this.bufferedData, this.sourceSampleRate, this.targetSampleRate);
-      console.log("stopping3");
       const int16Data = this._convertFloat32ToInt16(resampled);
       const wavBlob = this._encodeWAV(int16Data, this.targetSampleRate);
-      console.log("stopping4");
       resolve(wavBlob);
     });
   }
 
   async _getAudioWorkletContext() {
-    if (!this.audioContext.audioWorklet.modules.includes('capture-processor')) {
+    if (!this._workletModuleLoaded) {
       const blob = new Blob([
         `
         class CaptureProcessor extends AudioWorkletProcessor {
@@ -67,6 +60,7 @@ export class Recorder {
       ], { type: 'application/javascript' });
       const url = URL.createObjectURL(blob);
       await this.audioContext.audioWorklet.addModule(url);
+      this._workletModuleLoaded = true;
     }
     return this.audioContext;
   }
