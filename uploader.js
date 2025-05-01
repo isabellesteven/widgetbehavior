@@ -53,7 +53,7 @@ async function postAudioAndMetadata(blob, formId, sessionId, token) {
     sessionId: sessionId,
     wav_filename: filename,
     metadata_filename: metadataFilename,
-    metadata_content: encodeURIComponent(JSON.stringify(metadata)),
+    metadata_content: btoa(JSON.stringify(metadata)),
   });
 
   const apiUrl = `${widgetConfig.apiGatewayUploadUrl}?${queryParams.toString()}`;
