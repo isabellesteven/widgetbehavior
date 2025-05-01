@@ -57,7 +57,7 @@ async function postAudioAndMetadata(blob, formId, sessionId, token) {
   });
 
   const apiUrl = `${widgetConfig.apiGatewayUploadUrl}?${queryParams.toString()}`;
-
+  console.log("Posting to", apiUrl);
   const response = await fetch(apiUrl, {
     method: "POST",
     headers: {
