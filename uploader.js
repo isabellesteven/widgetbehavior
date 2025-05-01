@@ -93,6 +93,7 @@ function createWebSocketListener(sessionId, role = "standalone", timeoutMs = 300
   const message = new Promise((resolve, reject) => {
     const timeoutId = setTimeout(() => {
       ws.close();
+      console.log("timeout");
       reject(new Error(`Timeout: No WebSocket message received in ${timeoutMs} ms`));
     }, timeoutMs);
 
