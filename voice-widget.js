@@ -88,7 +88,7 @@ class VoiceWidget {
     this.container.innerHTML = `
       <div class="qiqi-controls">
         <button id="qiqiMicBtn-${uid}" title="Start recording">
-          <img src="./mic-icon-red.png" alt="Record" style="width: 30px;" />
+          <img src="https://isabellesteven.github.io/widgetbehavior/mic-icon-red.png" alt="Record" style="width: 30px;" />
         </button>
         <button id="qiqiDropdownBtn-${uid}" title="Choose mic">▼</button>
         <select id="qiqiMicSelect-${uid}" class="qiqi-hidden"></select>

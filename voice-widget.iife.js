@@ -64,7 +64,7 @@
     `,document.head.appendChild(e)}createDOM(){this.container=document.createElement("div"),this.container.className="qiqi-widget-inline";let e=this.sessionId;this.container.innerHTML=`
       <div class="qiqi-controls">
         <button id="qiqiMicBtn-${e}" title="Start recording">
-          <img src="./mic-icon-red.png" alt="Record" style="width: 30px;" />
+          <img src="https://isabellesteven.github.io/widgetbehavior/mic-icon-red.png" alt="Record" style="width: 30px;" />
         </button>
         <button id="qiqiDropdownBtn-${e}" title="Choose mic">\u25BC</button>
         <select id="qiqiMicSelect-${e}" class="qiqi-hidden"></select>
