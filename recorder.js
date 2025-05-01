@@ -15,57 +15,66 @@ export class Recorder {
     console.log("🔁 Recorder start");
     this.bufferedData = [];
     this.selectedDeviceId = selectedDeviceId;
+
     this.stream = await navigator.mediaDevices.getUserMedia({
       audio: { deviceId: { exact: selectedDeviceId } },
     });
 
     this.audioContext = new AudioContext();
-    console.log("🎙️ Audio context sample rate:", this.audioContext.sampleRate);
     this.sourceSampleRate = this.audioContext.sampleRate;
-    const source = this.audioContext.createMediaStreamSource(this.stream);
+    console.log("🎙️ Audio context sample rate:", this.sourceSampleRate);
 
-    const processor = new AudioWorkletNode(await this._getAudioWorkletContext(), 'capture-processor');
+    await this._getAudioWorkletContext();
+    const processor = new AudioWorkletNode(this.audioContext, 'capture-processor');
     processor.port.onmessage = (e) => {
       const float32Chunk = e.data;
       this.bufferedData.push(...float32Chunk);
+      console.log("🎧 Received chunk:", float32Chunk.length);
     };
 
+    const source = this.audioContext.createMediaStreamSource(this.stream);
     source.connect(processor).connect(this.audioContext.destination);
     this.processor = processor;
   }
 
   async stop() {
     return new Promise(async (resolve) => {
-      this.processor.disconnect();
-      this.stream.getTracks().forEach((track) => track.stop());
-      await this.audioContext.close();
+      if (this.processor) {
+        this.processor.disconnect();
+        this.processor = null;
+      }
+      if (this.stream) {
+        this.stream.getTracks().forEach((track) => track.stop());
+        this.stream = null;
+      }
+      if (this.audioContext && this.audioContext.state !== 'closed') {
+        await this.audioContext.close();
+      }
       this.audioContext = null;
+      this._workletModuleLoaded = false; // allow re-registration next time
 
       console.log("🧵 Buffered frames:", this.bufferedData.length);
-      
-      const resampled = await this._resampleToTarget(this.bufferedData, this.sourceSampleRate, this.targetSampleRate);
+
+      const resampled = await this._resampleToTarget(
+        this.bufferedData,
+        this.sourceSampleRate,
+        this.targetSampleRate
+      );
       const int16Data = this._convertFloat32ToInt16(resampled);
       const wavBlob = this._encodeWAV(int16Data, this.targetSampleRate);
-
-      // For testing: create download link
-   /*   const url = URL.createObjectURL(wavBlob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `recording_${Date.now()}.wav`;
-      a.textContent = 'Download WAV';
-      document.body.appendChild(a);*/
       resolve(wavBlob);
     });
   }
 
   async _getAudioWorkletContext() {
     if (!this._workletModuleLoaded) {
+      console.log("🎛️ Loading audio worklet module...");
       const blob = new Blob([
         `
         class CaptureProcessor extends AudioWorkletProcessor {
           process(inputs) {
             const input = inputs[0][0];
-            this.port.postMessage([...input]);
+            if (input) this.port.postMessage([...input]);
             return true;
           }
         }
