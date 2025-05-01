@@ -12,6 +12,7 @@ export class Recorder {
   }
 
   async start(selectedDeviceId) {
+    this.bufferedData = [];
     this.selectedDeviceId = selectedDeviceId;
     this.stream = await navigator.mediaDevices.getUserMedia({
       audio: { deviceId: { exact: selectedDeviceId } },
@@ -42,12 +43,12 @@ export class Recorder {
       const wavBlob = this._encodeWAV(int16Data, this.targetSampleRate);
 
       // For testing: create download link
-      const url = URL.createObjectURL(wavBlob);
+   /*   const url = URL.createObjectURL(wavBlob);
       const a = document.createElement('a');
       a.href = url;
       a.download = `recording_${Date.now()}.wav`;
       a.textContent = 'Download WAV';
-      document.body.appendChild(a);
+      document.body.appendChild(a);*/
       resolve(wavBlob);
     });
   }
