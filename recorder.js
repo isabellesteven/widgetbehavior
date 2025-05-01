@@ -12,13 +12,15 @@ export class Recorder {
   }
 
   async start(selectedDeviceId) {
-    //this.bufferedData = [];
+    console.log("🔁 Recorder start");
+    this.bufferedData = [];
     this.selectedDeviceId = selectedDeviceId;
     this.stream = await navigator.mediaDevices.getUserMedia({
       audio: { deviceId: { exact: selectedDeviceId } },
     });
 
     this.audioContext = new AudioContext();
+    console.log("🎙️ Audio context sample rate:", this.audioContext.sampleRate);
     this.sourceSampleRate = this.audioContext.sampleRate;
     const source = this.audioContext.createMediaStreamSource(this.stream);
 
@@ -39,6 +41,8 @@ export class Recorder {
       await this.audioContext.close();
       this.audioContext = null;
 
+      console.log("🧵 Buffered frames:", this.bufferedData.length);
+      
       const resampled = await this._resampleToTarget(this.bufferedData, this.sourceSampleRate, this.targetSampleRate);
       const int16Data = this._convertFloat32ToInt16(resampled);
       const wavBlob = this._encodeWAV(int16Data, this.targetSampleRate);
