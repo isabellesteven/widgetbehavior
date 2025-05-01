@@ -106,6 +106,8 @@ class VoiceWidget {
         this.isRecording = false;
         this.micBtn.classList.remove("qiqi-pulsing");
         const blob = await this.recorder.stop();
+        console.log("Blob type:", blob.type); // should show 'audio/wav'
+        console.log("Blob size:", blob.size, "bytes");
         const responseJson = await uploadAudio(blob, this.formId, this.sessionId);
         handleResponse(responseJson, this.formId);
       }
