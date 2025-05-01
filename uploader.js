@@ -66,7 +66,7 @@ async function postAudioAndMetadata(blob, formId, sessionId, token) {
     },
     body: blob,
   });
-
+  console.log(response);
   if (!response.ok) {
     console.error("Upload failed with status:", response.status);
     return null;
