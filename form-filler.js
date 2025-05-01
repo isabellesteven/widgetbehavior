@@ -21,6 +21,57 @@ function fillForm(data, formId) {
     data = Object.values(data)[0];
   }
   
+  const excludedKeys = ["sessionId", "app_template"];
+
+  Object.entries(data).forEach(([key, value]) => {
+      if (excludedKeys.includes(key)) return;
+
+      const normalizedKey = key.trim().toLowerCase().replace(/\s+/g, "_");
+
+      // Try finding a direct input match by id
+      let input = document.getElementById(key) || document.getElementById(normalizedKey);
+
+      if (input) {
+          // Special case: is this a radio button?
+          if (input.type === "radio") {
+              // Handle as radio group by name
+              const radios = document.querySelectorAll(`input[type="radio"][name="${input.name}"]`);
+              let matched = false;
+              radios.forEach(radio => {
+                  if (radio.value === value) {
+                      radio.checked = true;
+                      matched = true;
+                      console.log(`🔘 Selected radio "${value}" for "${key}"`);
+                  }
+              });
+              if (!matched) {
+                  console.warn(`⚠️ No radio option matched value "${value}" for "${key}"`);
+              }
+          } else {
+              input.value = value || "";
+              console.log(`✅ Filled "${key}" into #${input.id}`);
+          }
+      } else {
+          // Check if this is a radio group not found by id
+          const radios = document.querySelectorAll(`input[type="radio"][name="${key}"]`);
+          if (radios.length > 0) {
+              let matched = false;
+              radios.forEach(radio => {
+                  if (radio.value === value) {
+                      radio.checked = true;
+                      matched = true;
+                      console.log(`🔘 Selected radio "${value}" for "${key}"`);
+                  }
+              });
+              if (!matched) {
+                  console.warn(`⚠️ No radio option matched value "${value}" for "${key}"`);
+              }
+          } else {
+              console.warn(`🔍 Field not found in DOM for key: "${key}"`);
+          }
+      }
+  });
+  /*
   const excludedKeys = new Set(["sessionId", "app_template"]);
   for (const [key, value] of Object.entries(data)) {
     if (excludedKeys.has(key)) continue;
@@ -39,6 +90,7 @@ function fillForm(data, formId) {
       }
     }
   }
+  */
 }
 function _fillInput(input, value, key) {
   if (input.type === "radio") {
