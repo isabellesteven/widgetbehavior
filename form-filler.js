@@ -30,49 +30,37 @@ function fillForm(data, formId) {
     const input = document.getElementById(key) || document.getElementById(normalizedKey);
     console.log("in formfill input" , input);
     if (input) {
-      this._fillInput(input, value, key);
+      _fillInput(input, value, key);
     } else {
       const radios = document.querySelectorAll(`input[type="radio"][name="${key}"]`);
       if (radios.length > 0) {
-        this._fillRadioGroup(radios, value, key);
+        _fillRadioGroup(radios, value, key);
       } else {
         console.warn(`🔍 Field not found in DOM for key: "${key}"`);
       }
     }
   }
-}
-function _fillInput(input, value, key) {
-  if (input.type === "radio") {
-    const radios = document.querySelectorAll(`input[type="radio"][name="${input.name}"]`);
-    this._fillRadioGroup(radios, value, key);
-  } else {
-    input.value = value || "";
-    console.log(`✅ Filled "${key}" into #${input.id}`);
+
+  function _fillInput(input, value, key) {
+    if (input.type === "radio") {
+      const radios = document.querySelectorAll(`input[type="radio"][name="${input.name}"]`);
+      this._fillRadioGroup(radios, value, key);
+    } else {
+      input.value = value || "";
+      console.log(`✅ Filled "${key}" into #${input.id}`);
+    }
+  }
+
+  function _fillRadioGroup(radios, value, key) {
+    let matched = false;
+    radios.forEach(radio => {
+      if (radio.value === value) {
+        radio.checked = true;
+        matched = true;
+      }
+    });
+    matched
+      ? console.log(`🔘 Selected radio "${value}" for "${key}"`)
+      : console.warn(`⚠️ No radio option matched value "${value}" for "${key}"`);
   }
 }
-
-function _fillRadioGroup(radios, value, key) {
-  let matched = false;
-  radios.forEach(radio => {
-    if (radio.value === value) {
-      radio.checked = true;
-      matched = true;
-    }
-  });
-  matched
-    ? console.log(`🔘 Selected radio "${value}" for "${key}"`)
-    : console.warn(`⚠️ No radio option matched value "${value}" for "${key}"`);
-}
-
-
-/*
-function fillForm(data) {
-  const form = formId ? document.getElementById(formId) : document;
-  Object.entries(json).forEach(([key, value]) => {
-    const input = form.querySelector(`#${key}`);
-    if (input) {
-      input.value = value;
-    }
-  });
-}
- */ 
