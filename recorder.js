@@ -35,13 +35,17 @@ export class Recorder {
   async stop() {
     console.log("Recorder stopped");
     return new Promise(async (resolve) => {
+      console.log("stopping1");
       this.processor.disconnect();
       this.stream.getTracks().forEach((track) => track.stop());
+      console.log("stopping2");
       await this.audioContext.close();
 
       const resampled = await this._resampleToTarget(this.bufferedData, this.sourceSampleRate, this.targetSampleRate);
+      console.log("stopping3");
       const int16Data = this._convertFloat32ToInt16(resampled);
       const wavBlob = this._encodeWAV(int16Data, this.targetSampleRate);
+      console.log("stopping4");
       resolve(wavBlob);
     });
   }
