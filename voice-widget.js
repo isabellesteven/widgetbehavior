@@ -32,11 +32,10 @@ class VoiceWidget {
         display: flex;
         align-items: center;
         gap: 4px;
-        background: #fff;
-        border: 1px solid #ccc;
-        border-radius: 9999px;
-        padding: 6px 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        background: none;
+        border: none;
+        padding: 0;
+        box-shadow: none;
       }
       .qiqi-brand {
         font-size: 10px;
@@ -63,14 +62,20 @@ class VoiceWidget {
         100% { transform: scale(1); filter: brightness(1); }
       }
       .qiqi-spinner {
-        width: 24px;
-        height: 24px;
-        border: 3px solid #ccc;
-        border-top: 3px solid #e60023;
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #ccc;
+        border-top: 2px solid #e60023;
         border-radius: 50%;
         animation: qiqi-spin 1s linear infinite;
       }
-
+      .qiqi-mic-wrapper {
+        position: relative;
+        display: inline-block;
+      }
       @keyframes qiqi-spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
@@ -87,16 +92,18 @@ class VoiceWidget {
 
     this.container.innerHTML = `
       <div class="qiqi-controls">
+      <div class="qiqi-mic-wrapper">
         <button id="qiqiMicBtn-${uid}" title="Start recording">
           <img src="https://isabellesteven.github.io/widgetbehavior/mic-icon-red.png" alt="Record" style="width: 30px;" />
         </button>
+        <div id="qiqiSpinner" class="qiqi-spinner qiqi-hidden"></div>
+        </div>
         <button id="qiqiDropdownBtn-${uid}" title="Choose mic">▼</button>
         <select id="qiqiMicSelect-${uid}" class="qiqi-hidden"></select>
       </div>
       <div class="qiqi-brand">
         <small>Powered by <a href="https://voxfields.com" target="_blank">Voxfields</a></small>
       </div>
-      <div id="qiqiSpinner" class="qiqi-spinner qiqi-hidden"></div>
     `;
 
     this.scriptElement.parentNode.insertBefore(this.container, this.scriptElement.nextSibling);
