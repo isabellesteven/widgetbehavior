@@ -29,7 +29,7 @@ export class Recorder {
     processor.port.onmessage = (e) => {
       const float32Chunk = e.data;
       this.bufferedData.push(...float32Chunk);
-      console.log("🎧 Received chunk:", float32Chunk.length);
+   //   console.log("🎧 Received chunk:", float32Chunk.length);
     };
 
     const source = this.audioContext.createMediaStreamSource(this.stream);
