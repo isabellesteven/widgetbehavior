@@ -178,6 +178,7 @@ class VoiceWidget {
 
   showSpinner() {
     const uid = this.sessionId;
+    console.log("in showspinner, uid = ", uid);
     this.container.querySelector(`#qiqiSpinner-${uid}`)?.classList.remove("qiqi-hidden");
   }
   
