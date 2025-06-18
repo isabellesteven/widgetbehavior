@@ -5,7 +5,10 @@ import { widgetConfig } from "./config.js";
 
 class VoiceWidget {
   constructor(formId = null, scriptElement = null) {
-    console.log("in Constructor ...")
+    if (!formId) {
+      console.error("❌ VoiceWidget requires a formId");
+      return;
+    }
     this.formId = formId;
     this.scriptElement = scriptElement;
     this.recorder = new Recorder();
@@ -96,7 +99,7 @@ class VoiceWidget {
         <button id="qiqiMicBtn-${uid}" title="Start recording">
           <img src="https://isabellesteven.github.io/widgetbehavior/mic-icon-red.png" alt="Record" style="width: 30px;" />
         </button>
-        <div id="qiqiSpinner" class="qiqi-spinner qiqi-hidden"></div>
+        <div id="qiqiSpinner-${uid}" class="qiqi-spinner qiqi-hidden"></div>
         </div>
         <button id="qiqiDropdownBtn-${uid}" title="Choose mic">▼</button>
         <select id="qiqiMicSelect-${uid}" class="qiqi-hidden"></select>
@@ -174,17 +177,20 @@ class VoiceWidget {
   }
 
   showSpinner() {
-    this.container.querySelector("#qiqiSpinner")?.classList.remove("qiqi-hidden");
+    const uid = this.sessionId;
+    this.container.querySelector("#qiqiSpinner-${uid}")?.classList.remove("qiqi-hidden");
   }
   
   hideSpinner() {
-    this.container.querySelector("#qiqiSpinner")?.classList.add("qiqi-hidden");
+    const uid = this.sessionId;
+    this.container.querySelector("#qiqiSpinner-${uid}")?.classList.add("qiqi-hidden");
   }
   
 }
 
-const scripts = document.querySelectorAll('script[src*="voice-widget"]');
-scripts.forEach(script => {
+const script = document.currentScript;
+if (script) {
   const formId = script.getAttribute("data-formid");
   new VoiceWidget(formId, script);
-});
+};
+
