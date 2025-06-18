@@ -178,12 +178,12 @@ class VoiceWidget {
 
   showSpinner() {
     const uid = this.sessionId;
-    this.container.querySelector("#qiqiSpinner-${uid}")?.classList.remove("qiqi-hidden");
+    this.container.querySelector(`#qiqiSpinner-${uid}`)?.classList.remove("qiqi-hidden");
   }
   
   hideSpinner() {
     const uid = this.sessionId;
-    this.container.querySelector("#qiqiSpinner-${uid}")?.classList.add("qiqi-hidden");
+    this.container.querySelector(`#qiqiSpinner-${uid}`)?.classList.add("qiqi-hidden");
   }
   
 }
