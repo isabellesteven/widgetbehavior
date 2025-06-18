@@ -189,6 +189,7 @@ class VoiceWidget {
 }
 
 const script = document.currentScript;
+console.log("instantiating widget", script)
 if (script) {
   const formId = script.getAttribute("data-formid");
   new VoiceWidget(formId, script);
