@@ -16,12 +16,13 @@ function renderDebug(json) {
 }
 
 function fillForm(data, formId) {
+  console.log("in formfill data.type is", data.type)
   // Flatten the object if necessary
   if (Object.keys(data).length === 1 && typeof Object.values(data)[0] === 'object') {
     data = Object.values(data)[0];
   }
   
-  console.log("in formfill data.type is", data.type)
+
   const excludedKeys = new Set(["sessionId", "app_template"]);
   for (const [key, value] of Object.entries(data)) {
     if (excludedKeys.has(key)) continue;
