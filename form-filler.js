@@ -29,7 +29,7 @@ function fillForm(data, formId) {
     console.log("In fillform key = ", key);
     const normalizedKey = key.trim().toLowerCase().replace(/\s+/g, "_");
     const input = document.getElementById(key) || document.getElementById(normalizedKey);
-    console.log("in formfill input" , input.type);
+    console.log("in formfill input" , input);
     if (input) {
       _fillInput(input, value, key);
     } else {
