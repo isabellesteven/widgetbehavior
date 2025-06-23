@@ -16,7 +16,7 @@ function renderDebug(json) {
 }
 
 function fillForm(data, formId) {
-  console.log("in formfill data.type is", data.type)
+  console.log("in formfill data.type is", data)
   // Flatten the object if necessary
   if (Object.keys(data).length === 1 && typeof Object.values(data)[0] === 'object') {
     data = Object.values(data)[0];
