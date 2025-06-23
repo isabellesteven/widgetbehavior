@@ -119,6 +119,7 @@ class VoiceWidget {
     this.micSelect = this.container.querySelector(`#qiqiMicSelect-${uid}`);
 
     this.micBtn.addEventListener("click", async () => {
+      console.log("button: ", this.micSelect, this.isRecording, this.micSelect);
       if (!this.isRecording) {
         this.isRecording = true;
         this.micBtn.classList.add("qiqi-pulsing");
