@@ -113,12 +113,13 @@ class VoiceWidget {
   }
 
   setupUI() {
+        console.log("in setupUI");
     const uid = this.sessionId;
     this.micBtn = this.container.querySelector(`#qiqiMicBtn-${uid}`);
     this.dropdownBtn = this.container.querySelector(`#qiqiDropdownBtn-${uid}`);
     this.micSelect = this.container.querySelector(`#qiqiMicSelect-${uid}`);
 
-    console.log("in setupUI");
+
     this.micBtn.addEventListener("click", async () => {
       console.log("button: ", this.micSelect, this.isRecording, this.micSelect);
       if (!this.isRecording) {
