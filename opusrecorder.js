@@ -18,7 +18,7 @@ export class OpusRecorder {
       },
     });
 
-    const options = { mimeType: 'audio/webm;codecs=opus' };
+    const options = {audioBitsPerSecond: 128000, mimeType: 'audio/webm;codecs=opus' };
     this.mediaRecorder = new MediaRecorder(this.stream, options);
 
     this.mediaRecorder.ondataavailable = (event) => {
