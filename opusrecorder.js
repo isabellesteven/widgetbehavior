@@ -13,12 +13,11 @@ export class OpusRecorder {
     this.stream = await navigator.mediaDevices.getUserMedia({
       audio: {
         deviceId: selectedDeviceId ? { exact: selectedDeviceId } : undefined,
-        sampleRate: 16000,
         channelCount: 1,
       },
     });
 
-    const options = {audioBitsPerSecond: 128000, mimeType: 'audio/webm;codecs=opus' };
+    const options = {audioBitsPerSecond: 64000, mimeType: 'audio/webm' };
     this.mediaRecorder = new MediaRecorder(this.stream, options);
 
     this.mediaRecorder.ondataavailable = (event) => {
