@@ -1,7 +1,7 @@
 import { Recorder } from "./recorder.js";
 import { uploadAudio } from "./uploader.js";
 import { handleResponse } from "./form-filler.js";
-import { widgetConfig } from "./config.js";
+import {OpusRecorder} from "./opusrecorder.js";
 
 class VoiceWidget {
   constructor(formId = null, scriptElement = null) {
@@ -11,7 +11,8 @@ class VoiceWidget {
     }
     this.formId = formId;
     this.scriptElement = scriptElement;
-    this.recorder = new Recorder();
+    //this.recorder = new Recorder();
+    this.recorder = new OpusRecorder();
     this.sessionId = this.generateSessionId();
     this.selectedDeviceId = null;
     this.injectStyles();
