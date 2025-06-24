@@ -11,8 +11,8 @@ class VoiceWidget {
     }
     this.formId = formId;
     this.scriptElement = scriptElement;
-    this.recorder = new Recorder();
-    //this.recorder = new OpusRecorder();
+    //this.recorder = new Recorder();
+    this.recorder = new OpusRecorder();
     this.sessionId = this.generateSessionId();
     this.selectedDeviceId = null;
     this.injectStyles();
